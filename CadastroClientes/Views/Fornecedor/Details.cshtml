@@ -1,0 +1,64 @@
+﻿@model CadastroClientes.Models.Fornecedor;
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<div class="row">
+    <div class="container">
+        <div class="text-center my-4">
+            <h4>Detalhes do fornecedor</h4>
+        </div>
+
+        <div class="d-flex justify-content-center ">
+            <div class="col-md-6">
+                <div class="border rounded p-3" style="background-color: #f8f9fa;">
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Nome)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.CNPJ)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.CNPJ)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Segmento)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Segmento)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.CEP)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.CEP)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Endereco)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Endereco)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="border rounded" style="width: 230px; height: 234px; overflow: hidden; margin-top: 0px;">
+                    <img src="@Model.FotoUsuarioPath" alt="Foto do Fornecedor" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="text-center my-4">
+    <a asp-action="Index" class="btn btn-primary">Voltar</a>
+    <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn btn-success">Editar</a>
+</div>

@@ -1,0 +1,95 @@
+﻿@model CadastroClientes.Models.Fornecedor;
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<div class="row">
+    <div class="container">
+        <div class="text-center my-4">
+            <h4>Editar fornecedor</h4>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="col-md-6">
+                <div class="border rounded p-3" style="background-color: #f8f9fa;">
+                    <form asp-action="Edit" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="ID" />
+                        <div class="form-group">
+                            <label asp-for="Nome" class="control-label"></label>
+                            <input asp-for="Nome" class="form-control" />
+                            <span asp-validation-for="Nome" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CNPJ" class="control-label"></label>
+                            <input asp-for="CNPJ" class="form-control" />
+                            <span asp-validation-for="CNPJ" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Segmento" class="control-label"></label>
+                            <select asp-for="Segmento" class="form-control">
+                                <option value="">Selecione um segmento</option>
+                                <option value="Comércio">Comércio</option>
+                                <option value="Serviço">Serviço</option>
+                                <option value="Indústria">Indústria</option>
+                            </select>
+                            <span asp-validation-for="Segmento" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CEP" class="control-label"></label>
+                            <input asp-for="CEP" class="form-control" id="CEP" />
+                            <span asp-validation-for="CEP" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Endereco" class="control-label"></label>
+                            <input asp-for="Endereco" class="form-control" id="Endereco" />
+                            <span asp-validation-for="Endereco" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FotoUsuario" class="control-label"></label>
+                            <input asp-for="FotoUsuario" class="form-control" type="file" />
+                            <span asp-validation-for="FotoUsuario" class="text-danger"></span>
+
+                            @if (!string.IsNullOrEmpty(Model.FotoUsuarioPath))
+                            {
+                                <img src="@Model.FotoUsuarioPath" alt="Foto atual do Fornecedor" style="width:100px;height:auto;" />
+                            }
+                        </div>
+
+                        <div class="form-group d-flex justify-content-center">
+                            <a asp-action="Index" class="btn btn-primary me-2">Voltar</a>
+                            <input type="submit" value="Salvar" class="btn btn-success me-2" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#CEP").on("blur", function () {
+                var cep = $(this).val().replace(/\D/g, '');
+                if (cep.length === 8) {
+                    $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function (data) {
+                        if (!("erro" in data)) {
+                            $("#Endereco").val(`${data.logradouro}, ${data.bairro}, ${data.localidade} - ${data.uf}`);
+                        } else {
+                            alert("CEP não encontrado.");
+                        }
+                    }).fail(function () {
+                        alert("Erro ao buscar o endereço. Verifique o CEP.");
+                    });
+                } else {
+                    alert("CEP inválido. Digite 8 números.");
+                }
+            });
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
